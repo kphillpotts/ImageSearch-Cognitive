@@ -29,6 +29,7 @@ namespace ImageSearch.Droid
         {
             base.OnCreate(bundle);
 
+
             viewModel = new ImageSearchViewModel();
 
             //Setup RecyclerView
@@ -72,6 +73,7 @@ namespace ImageSearch.Droid
             };
 
             UserDialogs.Init(this);
+
             SupportActionBar.SetDisplayHomeAsUpEnabled(false);
             SupportActionBar.SetHomeButtonEnabled(false);
         }

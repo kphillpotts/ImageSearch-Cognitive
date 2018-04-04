@@ -63,9 +63,10 @@ namespace ImageSearch.iOS
             ActivityIsLoading.StartAnimating();
 
             string description = await viewModel.GetImageDescription(viewModel.Images[indexPath.Row].ImageLink);
-            UIAlertView alert = new UIAlertView("Image Analysis",
-                                                description, null, "OK", null);
-            alert.Show();
+            var resultAlert = UIAlertController.Create("Image Analysis", description, UIAlertControllerStyle.Alert);
+            resultAlert.AddAction(UIAlertAction.Create("OK", UIAlertActionStyle.Default, null));
+
+            PresentViewController(resultAlert, true, null);
 
             ActivityIsLoading.StopAnimating();
         }

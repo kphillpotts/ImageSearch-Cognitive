@@ -6,6 +6,8 @@ using Android.Support.V7.Widget;
 using ImageSearch.ViewModel;
 using Android.App;
 using Square.Picasso;
+using FFImageLoading;
+using FFImageLoading.Views;
 
 namespace ImageSearch.Droid.Adapters
 {
@@ -49,7 +51,10 @@ namespace ImageSearch.Droid.Adapters
             // Replace the contents of the view with that element
             var holder = viewHolder as ImageAdapterViewHolder;
             holder.Caption.Text = item.Title;
-            Picasso.With(activity).Load(item.ThumbnailLink).Into(holder.Image);
+            ImageService.Instance.LoadUrl(item.ThumbnailLink)
+                .DownSample(200, 200)
+                .Into(holder.Image);
+            //Picasso.With(activity).Load(item.ThumbnailLink).Into(holder.Image);
         }
 
         public override int ItemCount => viewModel.Images.Count;
@@ -61,13 +66,13 @@ namespace ImageSearch.Droid.Adapters
 
     public class ImageAdapterViewHolder : RecyclerView.ViewHolder
     {
-        public ImageView Image { get; private set; }
+        public ImageViewAsync Image { get; private set; }
         public TextView Caption { get; private set; }
 
         public ImageAdapterViewHolder(View itemView, Action<ImageAdapterClickEventArgs> clickListener,
                             Action<ImageAdapterClickEventArgs> longClickListener) : base(itemView)
         {
-            Image = itemView.FindViewById<ImageView>(Resource.Id.imageView);
+            Image = itemView.FindViewById<ImageViewAsync>(Resource.Id.imageView);
             Caption = itemView.FindViewById<TextView>(Resource.Id.textView);
             itemView.Click += (sender, e) => clickListener(new ImageAdapterClickEventArgs { View = itemView, Position = AdapterPosition });
             itemView.LongClick += (sender, e) => longClickListener(new ImageAdapterClickEventArgs { View = itemView, Position = AdapterPosition });

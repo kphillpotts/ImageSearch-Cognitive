@@ -10,10 +10,11 @@ using Android.Runtime;
 using Android.Views;
 using Android.Widget;
 using Android.Util;
+using FFImageLoading.Views;
 
 namespace ImageSearch.Droid
 {
-    public class SquareImageView : ImageView
+    public class SquareImageView : ImageViewAsync
     {
         public SquareImageView(Context context, IAttributeSet attrs)
             : base(context, attrs)

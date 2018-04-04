@@ -14,8 +14,8 @@
             android:layout_height="wrap_content"
             android:orientation="vertical"
             android:padding="8dp">
-            <imagesearch.droid.SquareImageView
-                android:layout_width="match_parent"
+          <imagesearch.droid.SquareImageView
+              android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:id="@+id/imageView"
                 android:scaleType="centerCrop"

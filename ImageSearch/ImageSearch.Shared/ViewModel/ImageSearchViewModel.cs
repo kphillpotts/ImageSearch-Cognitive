@@ -131,16 +131,19 @@ namespace ImageSearch.ViewModel
 
             if (UseCamera)
             {
-                file = await CrossMedia.Current.TakePhotoAsync(new StoreCameraMediaOptions
-                {
-                    Directory = "Samples",
-                    Name = "test.jpg",
-                    SaveToAlbum = true
+                file = await CrossMedia.Current.TakePhotoAsync(
+                    new StoreCameraMediaOptions
+                    {
+                        Directory = "Samples",
+                        Name = "test.jpg",
+                        SaveToAlbum = true,
+                        PhotoSize = PhotoSize.Medium
+                    
                 });
             }
             else
             {
-                file = await CrossMedia.Current.PickPhotoAsync();
+                file = await CrossMedia.Current.PickPhotoAsync(new PickMediaOptions() { PhotoSize = PhotoSize.Medium });
             }
 
             if (file == null)

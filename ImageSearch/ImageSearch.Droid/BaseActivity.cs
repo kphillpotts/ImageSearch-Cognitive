@@ -32,6 +32,9 @@ namespace ImageSearch.Droid
                 SupportActionBar.SetHomeButtonEnabled(true);
 
             }
+
+            Plugin.CurrentActivity.CrossCurrentActivity.Current.Activity = this;
+
         }
 
         protected abstract int LayoutResource
