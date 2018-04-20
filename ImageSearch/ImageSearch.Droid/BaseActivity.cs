@@ -10,6 +10,7 @@ using Android.OS;
 using Android.Support.V7.App;
 using Android.Support.V7.Widget;
 using Android.Content.PM;
+using Android.Runtime;
 
 namespace ImageSearch.Droid
 {
@@ -34,6 +35,7 @@ namespace ImageSearch.Droid
             }
 
             Plugin.CurrentActivity.CrossCurrentActivity.Current.Activity = this;
+            Xamarin.Essentials.Platform.Init(this, bundle);
 
         }
 
@@ -47,7 +49,14 @@ namespace ImageSearch.Droid
             set { Toolbar.SetNavigationIcon(value); }
         }
 
-       
+        public override void OnRequestPermissionsResult(int requestCode, string[] permissions, [GeneratedEnum] Android.Content.PM.Permission[] grantResults)
+        {
+            Xamarin.Essentials.Platform.OnRequestPermissionsResult(requestCode, permissions, grantResults);
+
+            base.OnRequestPermissionsResult(requestCode, permissions, grantResults);
+        }
+
+
     }
 
 }

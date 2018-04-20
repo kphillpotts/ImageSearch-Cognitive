@@ -15,6 +15,7 @@ using Microsoft.ProjectOxford.Vision.Contract;
 using System.IO;
 using Plugin.Media;
 using Plugin.Media.Abstractions;
+using Xamarin.Essentials;
 
 namespace ImageSearch.ViewModel
 {
@@ -38,25 +39,34 @@ namespace ImageSearch.ViewModel
             var requestHeaderValue = CognitiveServicesKeys.BingSearch;
             try
             {
-                // Access Web requests through HttpClient
-                using (var client = new HttpClient())
+                // check we have an internet connection
+                if (Connectivity.NetworkAccess == NetworkAccess.Internet)
                 {
-                    // put in the required headers
-                    client.DefaultRequestHeaders.Add(requestHeaderKey, requestHeaderValue);
-
-                    // get the datas
-                    var json = await client.GetStringAsync(url);
-                    var result = JsonConvert.DeserializeObject<SearchResult>(json);
-
-                    // populate our viewmodel with images
-                    Images.ReplaceRange(result.Images.Select(i => new ImageResult
+                    // Access Web requests through HttpClient
+                    using (var client = new HttpClient())
                     {
-                        ContextLink = i.HostPageUrl,
-                        FileFormat = i.EncodingFormat,
-                        ImageLink = i.ContentUrl,
-                        ThumbnailLink = i.ThumbnailUrl,
-                        Title = i.Name
-                    }));
+                        // put in the required headers
+                        client.DefaultRequestHeaders.Add(requestHeaderKey, requestHeaderValue);
+
+                        // get the datas
+                        var json = await client.GetStringAsync(url);
+                        var result = JsonConvert.DeserializeObject<SearchResult>(json);
+
+                        // populate our viewmodel with images
+                        Images.ReplaceRange(result.Images.Select(i => new ImageResult
+                        {
+                            ContextLink = i.HostPageUrl,
+                            FileFormat = i.EncodingFormat,
+                            ImageLink = i.ContentUrl,
+                            ThumbnailLink = i.ThumbnailUrl,
+                            Title = i.Name
+                        }));
+                    }
+                }
+                else
+                {
+                    await UserDialogs.Instance.AlertAsync("Unable to query images: No Internet Connection");
+                    return false;
                 }
             }
             catch (Exception ex)
